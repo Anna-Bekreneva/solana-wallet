@@ -1,0 +1,35 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  font-size: 36px;
+}
+
+.link {
+  color: var(--blue-800);
+  border-radius: 4px;
+  transition: box-shadow 0.3s, color 0.3s, transition 0.3s;
+  outline: 0;
+
+  &:focus-visible {
+    box-shadow: 0 0 2px var(--blue-500);
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--blue-500);
+    }
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}
