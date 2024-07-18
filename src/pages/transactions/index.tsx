@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Connection, PublicKey, clusterApiUrl, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
+'use client'
+
 import {Transactions} from "@/feature";
 
 const TransactionsPage = () => {
@@ -7,5 +7,4 @@ const TransactionsPage = () => {
     <Transactions/>
   )
 }
-
 export default TransactionsPage

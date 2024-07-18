@@ -1,30 +1,77 @@
-import {useState} from "react";
+'use client'
+import {ChangeEvent, useState} from "react";
 import {clusterApiUrl, Connection, Keypair, PublicKey, SystemProgram, Transaction} from "@solana/web3.js";
 
 export const useTransactions = () => {
   const [amount, setAmount] = useState('');
+  const [amountError, setAmountError] = useState('')
   const [recipient, setRecipient] = useState('');
+  const [recipientError, setRecipientError] = useState('')
   const [balance, setBalance] = useState(0);
+  const [globalError, setGlobalError] = useState('')
 
-  const sendTransaction = async () => {
-    const connection = new Connection(clusterApiUrl('devnet'));
-    const fromWallet = Keypair.generate(); // Replace with your wallet
-    const toWallet = new PublicKey(recipient);
+  const amountChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setAmount(value)
+    if (value < 1) {
+      setAmountError('Введите корректную сумму')
+    } else {
+      amountError && setAmountError('')
+    }
+  }
 
-    const transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: fromWallet.publicKey,
-        toPubkey: toWallet,
-        lamports: amount * 1e9, // Convert SOL to lamports
-      })
-    );
+  const recipientChangeHandler = (event: ChangeEvent<HTMLInputElement>) => setRecipient(event.target.value)
 
-    const signature = await connection.sendTransaction(transaction, [fromWallet]);
-    await connection.confirmTransaction(signature);
+  const sendTransaction = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
 
-    const balance = await connection.getBalance(fromWallet.publicKey);
-    setBalance(balance / 1e9); // Convert lamports to SOL
+    try {
+      const connection = new Connection(clusterApiUrl('devnet'));
+      const fromWallet = Keypair.generate();
+      const toWallet = new PublicKey(recipient);
+
+      const senderBalance = await connection.getBalance(fromWallet.publicKey);
+      const lamportsToSend = amount * 1e9;
+
+      if (senderBalance < lamportsToSend) {
+        setGlobalError('Недостаточного баланса')
+        return;
+      }
+
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: fromWallet.publicKey,
+          toPubkey: toWallet,
+          lamports: lamportsToSend,
+        })
+      );
+
+      const signature = await connection.sendTransaction(transaction, [fromWallet]);
+      await connection.confirmTransaction(signature);
+
+      const updatedBalance = await connection.getBalance(fromWallet.publicKey);
+      setBalance(updatedBalance / 1e9);
+
+      setGlobalError('')
+
+    } catch (error) {
+      console.error('Transaction error:', error);
+      setGlobalError('Произошла ошибка')
+    }
   };
 
-  return {amount, balance, setRecipient, setAmount, setBalance, recipient, sendTransaction}
+
+  return {
+    amount,
+    balance,
+    setRecipient,
+    setAmount,
+    recipient,
+    sendTransaction,
+    amountChangeHandler,
+    amountError,
+    recipientChangeHandler,
+    recipientError,
+    globalError
+  }
 }
