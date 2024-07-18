@@ -1,0 +1,34 @@
+.field {
+  width: 100%;
+  padding: 12px 24px;
+  outline: 0;
+
+  background-color: var(--white);
+  border: 1px solid var(--blue-800);
+  border-radius: 6px;
+
+  transition:
+    border-color 0.3s,
+    background-color 0.3s;
+
+  &::placeholder {
+    color: var(--dark-400);
+    transition: color 0.3s;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  @media (any-hover: hover) {
+    &::placeholder {
+      &:hover {
+        color: var(--dark-800);
+      }
+    }
+  }
+
+  &:focus {
+    border-color: var(--blue-500);
+  }
+}

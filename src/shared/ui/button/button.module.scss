@@ -1,0 +1,45 @@
+.button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.3s, box-shadow 0.3s, background-color 0.3s, opacity 0.3s;
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &:focus-visible {
+    background-color: var(--light-100);
+    box-shadow: 0 0 0 2px var(--blue-500);
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--blue-500);
+    }
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.dark {
+  background-color: var(--blue-800);
+  color: var(--white);
+}
+
+.light {
+  background-color: var(--white);
+  color: var(--blue-800);
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--white);
+    }
+  }
+}
