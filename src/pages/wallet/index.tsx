@@ -1,10 +1,13 @@
 'use client'
 
 import {Wallet} from "@/feature";
+import {PageWrapper} from "@/widgets";
 
 export const WalletPage = () => {
   return (
-    <Wallet/>
+    <PageWrapper title={'Кошелек'} description={'Ваш кошелек'}>
+      <Wallet/>
+    </PageWrapper>
   )
 }
 
