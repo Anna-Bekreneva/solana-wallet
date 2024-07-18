@@ -1,3 +1,5 @@
+'use client'
+
 import {Wallet} from "@/feature";
 
 export const WalletPage = () => {

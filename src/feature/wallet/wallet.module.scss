@@ -1,0 +1,11 @@
+.item {
+  word-break: break-all;
+  span {
+    color: var(--blue-800);
+    font-weight: 500;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
