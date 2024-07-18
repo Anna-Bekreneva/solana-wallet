@@ -2,7 +2,7 @@ import {useState} from "react";
 import {clusterApiUrl, Connection, Keypair, PublicKey} from "@solana/web3.js";
 
 export const useWallet = () => {
-  const [wallet, setWallet] = useState(null);
+  const [wallet, setWallet] = useState<Keypair | null>(null);
   const [balance, setBalance] = useState(0);
 
   const createWallet = async () => {

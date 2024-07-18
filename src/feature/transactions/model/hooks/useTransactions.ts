@@ -13,7 +13,7 @@ export const useTransactions = () => {
   const amountChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     setAmount(value)
-    if (value < 1) {
+    if (Number(amount) < 1) {
       setAmountError('Введите корректную сумму')
     } else {
       amountError && setAmountError('')
@@ -31,7 +31,7 @@ export const useTransactions = () => {
       const toWallet = new PublicKey(recipient);
 
       const senderBalance = await connection.getBalance(fromWallet.publicKey);
-      const lamportsToSend = amount * 1e9;
+      const lamportsToSend = Number(amount) * 1e9;
 
       if (senderBalance < lamportsToSend) {
         setGlobalError('Недостаточного баланса')
